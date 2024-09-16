@@ -1,0 +1,46 @@
+# Blender MTL File: 'mining laser.blend'
+# Material Count: 4
+
+newmtl light_texturescroll_blue
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.431624 0.640000 0.621696
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd light_texturescroll_blue.png
+
+newmtl weapon1
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.408074 0.428660 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd light_texturescroll_blue.png
+
+newmtl weapon1_laser1_transparency
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.104531 0.640000 0.088168
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd weapon1 laser1 transparency.png
+
+newmtl weapon1_weapon1
+Ns 96.078431
+Ka 1.000000 1.000000 1.000000
+Kd 0.408074 0.428660 0.640000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 2
+map_Kd weapon1.png
