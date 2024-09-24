@@ -5,7 +5,6 @@
 
 # Include directories (for any header files you're using)
 -I./include
--I./include/assimp
 
 # Define any preprocessor macros
 -DBUILD_DEBUG
