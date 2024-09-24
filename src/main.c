@@ -4,6 +4,8 @@
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 
+#define RECT(a, b, c, d) ((Rectangle){ .x = a, .y = b, .width = c, .height = d })
+
 Camera3D cam;
 
 int main(void) {
@@ -34,7 +36,7 @@ int main(void) {
         BeginDrawing();
         ClearBackground(BLACK);
 
-        GuiButton((Rectangle){ .x = 5.f, .y = 5.f, .width = 50.f, .height = 25.f }, "#191#Info");
+        GuiButton(RECT(5, 5, 50, 25), "#191#Info");
 
         BeginMode3D(cam);
         DrawModel(model, Vector3Zero(), 2.0f, WHITE);
