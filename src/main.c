@@ -130,6 +130,7 @@ int main(void) {
             UnloadModel(model);
 
             current = &weapon_data[selectedWeapon];
+            //TODO: Need to investigate why some models with multiple materials don't use the right mats
             model = LoadModel(current->paths[0]);
             levelIndex = 0;
         }
