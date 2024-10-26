@@ -1,3 +1,5 @@
+#include "string.h"
+
 #include "raylib.h"
 #include "raymath.h"
 
@@ -40,15 +42,15 @@ static const weapon_data_t weapon_data[] = {
     { .type = 2, .levels = 1, .paths = {".\\data\\Tether\\ControlTether.obj"} },
     { .type = 3, .levels = 3, .paths = {
         ".\\data\\MiningLaser1\\MiningLaserLevel1.obj",
-        "",
-        ""
+        ".\\data\\MiningLaser2\\MiningLaser Level 2.obj",
+        ".\\data\\MiningLaser3\\MiningLaser Level 3.obj",
     } },
     { .type = 4, .levels = 1, .paths = {".\\data\\Ripper\\Ripper.obj"} },
     { .type = 5, .levels = 1, .paths = {".\\data\\Toaster\\Toaster.obj"} },
     { .type = 6, .levels = 3, .paths = {
         ".\\data\\Spew1\\Spew1.obj",
-        "",
-        "",
+        ".\\data\\Spew1\\Spew1.obj",
+        ".\\data\\Spew3\\Spew3.obj",
     } },
     { .type = 7, .levels = 2, .paths = {
         ".\\data\\Scattergun\\ScattergunLV1.obj",
@@ -88,9 +90,12 @@ static const char *names[] = {
 };
 
 weapon_t selectedWeapon = SLINGSHOT;
-bool picking = false;
+bool wpicking = false;
 const char *options = NULL;
 int levelIndex = 0;
+bool lpicking = false;
+bool lchanged = false;
+const char *levelOptions = "1;2;3";
 
 Model model = { 0 };
 
@@ -113,7 +118,7 @@ int main(void) {
 
     TraceLog(LOG_DEBUG, "[GITS-V] Loading initial model data");
     const weapon_data_t *current = &weapon_data[selectedWeapon];
-    model = LoadModel(current->paths[0]);
+    model = LoadModel(current->paths[levelIndex]);
     options = TextJoin(names, COUNT, ";");
 
     while (!WindowShouldClose()) {
@@ -127,12 +132,20 @@ int main(void) {
         }
 
         if (selectedWeapon != current->type) {
+            levelIndex = 0;
             UnloadModel(model);
 
             current = &weapon_data[selectedWeapon];
             //TODO: Need to investigate why some models with multiple materials don't use the right mats
-            model = LoadModel(current->paths[0]);
-            levelIndex = 0;
+            model = LoadModel(current->paths[levelIndex]);
+        }
+        if (lchanged) {
+            lchanged = false;
+            UnloadModel(model);
+
+            current = &weapon_data[selectedWeapon];
+            //TODO: Need to investigate why some models with multiple materials don't use the right mats
+            model = LoadModel(current->paths[levelIndex]);
         }
 
         UpdateCamera(&cam, CAMERA_ORBITAL);
@@ -149,11 +162,25 @@ int main(void) {
         GuiStatusBar(RECT(0, 600-25, 800, 25), buffer);
 
         GuiPanel(RECT(0, 0, 800, 25), "Controls");
-        if (GuiDropdownBox(RECT(15, 28, 150, 15), options, (int *)&selectedWeapon, picking)) {
-            picking = !picking;
+        if (GuiDropdownBox(RECT(15, 28, 150, 15), options, (int *)&selectedWeapon, wpicking)) {
+            wpicking = !wpicking;
         }
-        (void)levelIndex;
-        //TODO: Draw control to select level of weapon
+
+        // Can't tell if this is smart or dumb...
+        char loptions[6];
+        strncpy_s(loptions, 6, levelOptions, 6);
+        if (current->levels == 1) {
+            loptions[1] = '\0';
+        }
+        else if (current->levels == 2) {
+            loptions[3] = '\0';
+        }
+        if (GuiDropdownBox(RECT(200, 28, 150, 15), loptions, &levelIndex, lpicking)) {
+            if (lpicking) {
+                lchanged = true;
+            }
+            lpicking = !lpicking;
+        }
 
         EndDrawing();
     }
